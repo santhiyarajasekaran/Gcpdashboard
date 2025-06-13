@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechTrapture Data Upload</title>
+    <style>
+      .popup-message {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        background-color: #e6f9f0;
+        color: #006644;
+        border: 1px solid #b2dfdb;
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        animation: slideDown 0.4s ease, fadeOut 0.5s ease 3s forwards;
+        transition: opacity 0.5s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        background: url("{{ url_for('static', filename='bgg.jpg') }}") no-repeat
+          center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .header {
+        background-color: rgba(30, 60, 114, 0.95);
+        padding: 25px 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .header h1 {
+        color: white;
+        font-size: 2.6rem;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+
+      .container {
+        background-color: rgba(255, 255, 255, 0.96);
+        padding: 40px 50px;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px;
+        animation: fadeInUp 0.6s ease;
+      }
+
+      .container h2 {
+        font-size: 1.75rem;
+        color: #1e3c72;
+        margin-bottom: 25px;
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      input[type="file"] {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="file"]:focus {
+        border-color: #2a5298;
+        outline: none;
+      }
+
+      input[type="submit"] {
+        background: linear-gradient(to right, #2a5298, #1e3c72);
+        color: white;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      input[type="submit"]:hover {
+        background: linear-gradient(to right, #1e3c72, #16355b);
+        transform: translateY(-2px);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .container {
+          padding: 30px 20px;
+        }
+
+        .container h2 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>TechTrapture Data Upload</h1>
+    </div>
+    <div class="container">
+      <h2>Upload File to GCS</h2>
+      {% if message %}
+      <div id="popupMessage" class="popup-message">{{ message }}</div>
+      <script>
+        // Automatically hide after 3.5 seconds
+        setTimeout(function () {
+          const popup = document.getElementById("popupMessage");
+          if (popup) {
+            popup.style.opacity = "0";
+            setTimeout(() => popup.remove(), 500); // Remove after fade
+          }
+        }, 3500);
+      </script>
+      {% endif %}
+
+      <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+  </body>
+</html>
